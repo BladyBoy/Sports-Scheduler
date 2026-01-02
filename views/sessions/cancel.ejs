@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Session | Sports Scheduler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10">
+
+    <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl border-t-4 border-red-500">
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-2xl text-red-600"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800">Cancel Session</h1>
+            <p class="text-gray-500 mt-2">Are you sure you want to cancel <br> <span class="font-bold text-slate-700">"<%= session.sessionName %>"</span>?</p>
+        </div>
+
+        <form action="/sessions/cancel/<%= session.id %>" method="POST" class="space-y-6">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Reason for Cancellation</label>
+                <input type="text" name="message" required placeholder="e.g. Raining heavily, Turf unavailable" 
+                    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition">
+            </div>
+
+            <div class="flex gap-4">
+                <a href="/sessions/<%= session.id %>" class="w-1/2 py-3 text-center text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition font-medium">Go Back</a>
+                <button type="submit" class="w-1/2 py-3 text-white bg-red-600 rounded-lg hover:bg-red-700 shadow-lg shadow-red-500/30 transition font-medium">Confirm Cancel</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

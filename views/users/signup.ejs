@@ -1,0 +1,88 @@
+<!-- views/users/signup.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Sports Scheduler</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col items-center justify-center font-sans py-10"
+      style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('http://getwallpapers.com/wallpaper/full/4/b/f/373947.jpg');">
+
+    <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-blue-500 drop-shadow-xl bg-black/30 px-6 py-2 rounded-lg inline-block border border-blue-500/30">
+            <span class="text-yellow-400">S</span>PORTS SCHEDULER
+        </h1>
+        <p class="text-yellow-300 mt-2 text-lg font-medium drop-shadow-md">Elevate your game with ease!</p>
+    </header>
+
+    <main class="w-full max-w-4xl px-4 flex flex-col md:flex-row gap-6">
+        
+        <div class="flex-1 bg-black/80 backdrop-blur-md p-8 rounded-2xl shadow-[0_0_25px_rgba(255,255,255,0.1)] border border-white/10">
+            <h2 class="text-2xl font-bold text-emerald-300 mb-6 text-center">Create Account</h2>
+            
+            <form action="/users" method="POST" class="space-y-4">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <input required type="text" name="firstName" placeholder="First Name" 
+                        class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition">
+                    <input required type="text" name="lastName" placeholder="Last Name" 
+                        class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition">
+                </div>
+
+                <input required type="email" name="email" placeholder="Email Address" 
+                    class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition">
+
+                <div class="relative">
+                    <select required name="role" class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg text-gray-300 focus:outline-none focus:border-emerald-400 appearance-none">
+                        <option value="" disabled selected class="bg-gray-800">Choose a role...</option>
+                        <option value="player" class="bg-gray-800">Player</option>
+                        <option value="admin" class="bg-gray-800">Admin</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+
+                <input required type="password" name="password" placeholder="Choose a Password" 
+                    class="w-full px-4 py-3 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition">
+
+                <button type="submit" class="w-full py-3 bg-red-700 hover:bg-red-800 text-white font-bold rounded-lg transition transform hover:scale-[1.02] shadow-lg mt-2">
+                    Sign Up
+                </button>
+            </form>
+
+            <% if (messages && messages.error && messages.error.length > 0) { %>
+                <div class="mt-4 space-y-2">
+                    <% messages.error.forEach(msg => { %>
+                        <div class="bg-red-500/20 border border-red-500 text-red-200 text-sm px-4 py-2 rounded text-center">
+                            <%= msg %>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+
+            <p class="text-center text-gray-400 text-sm mt-6">
+                Already have an account? <a href="/login" class="text-yellow-400 hover:underline">Log In</a>
+            </p>
+        </div>
+
+        <div class="hidden md:flex flex-1 flex-col justify-center p-8 bg-black/40 backdrop-blur-sm rounded-2xl border border-white/5 text-center">
+            <div class="mb-6">
+                <i class="fa-solid fa-trophy text-6xl text-yellow-500 drop-shadow-lg"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Join the Game</h2>
+            <p class="text-gray-300 leading-relaxed">
+                Sign up today to create tournaments, join sessions, and manage your sports schedule effortlessly. 
+                <br><br>
+                <span class="text-emerald-400 font-semibold">Ready to play?</span>
+            </p>
+        </div>
+
+    </main>
+</body>
+</html>
