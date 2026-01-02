@@ -10,38 +10,42 @@ const session = require("express-session");
 const passport = require("passport");
 require("dotenv").config(); 
 
-// 1. App Configuration (Views & Static)
+// Allowing Express to trust the proxy (Load Balancer) used by Render.
+app.set("trust proxy", 1); 
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// 2. Parsers (MUST BE BEFORE CSRF)
-// These allow the app to read the inputs from the form
+// Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("super_secret_cookie_secret"));
 
-// 3. Session Setup
+// SESSION SETUP 
 app.use(session({
     secret: process.env.SESSION_SECRET || "super-secret-key-session",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 24 hours
+    cookie: { 
+        maxAge: 24 * 60 * 60 * 1000, 
+        secure: process.env.NODE_ENV === "production", 
+        httpOnly: true
+    },
 }));
 
-// 4. CSRF Protection (MUST BE AFTER SESSION & PARSERS)
-// The secret must be exactly 32 chars.
+// CSRF Protection 
 app.use(csrf("12345678901234567890123456789012", ["POST", "PUT", "DELETE"]));
 
-// 5. Passport Config (The Missing Link!)
-require("./config/passport")(passport); // <-- THIS LOADS THE STRATEGY
+// Passport Config
+require("./config/passport")(passport); 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// 6. Flash Messages
+// Flash Messages
 app.use(flash());
 
-// 7. Global Local Variables
+// Global Local Variables
 app.use((req, res, next) => {
   res.locals.messages = req.flash();
   res.locals.user = req.user || null;
@@ -49,7 +53,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 8. Routes
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const sportRoutes = require('./routes/sportRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
@@ -68,7 +72,7 @@ app.get("/", (req, res) => {
   return res.render("index", { title: "Sports Scheduler" });
 });
 
-// --- START THE SERVER ---
+// SERVER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
