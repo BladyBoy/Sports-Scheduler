@@ -2,6 +2,9 @@
 
 This is my capstone project of Full Stack Web Development, as part of it, I developed a full stack web application called **Sports Scheduler** using express.js node.js and postgresql. This application allows administrators(Admin) to create and manage sports and participants to create and join sports sessions.
 
+## 🚀 Live Demo
+- Check this out: [https://sports-scheduler-ravi.render.app](https://sports-scheduler-ravi.onrender.com/)
+
 ## Features
 
 - **Administrator Functions:**
